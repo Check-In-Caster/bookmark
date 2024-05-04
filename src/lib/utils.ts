@@ -1,3 +1,4 @@
+import { APP_URL } from "@/app/env";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -15,3 +16,10 @@ export const extractUrls = (text: string) => {
     return [];
   }
 };
+
+export function postUrl(params: { param: string }): string {
+  const baseUrl = `${APP_URL}/frames/bookmark`;
+  const urlParams = new URLSearchParams();
+  urlParams.append("type", params.param);
+  return `${baseUrl}?${urlParams.toString()}`;
+}
