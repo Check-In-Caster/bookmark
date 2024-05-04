@@ -1,7 +1,7 @@
 import { APP_URL } from "@/app/env";
 import { getCastInfo } from "@/lib/neynar";
 import { prisma } from "@/lib/prisma";
-import { postUrl } from "@/lib/utils";
+import { formatCategory, postUrl } from "@/lib/utils";
 import { Button } from "frames.js/next";
 import { frames } from "../frames";
 
@@ -29,7 +29,10 @@ const handler = frames(async (ctx) => {
         if (type === "save") {
           //create a new category
           await prisma.categories.create({
-            data: { category: inputText, fid: String(requesterFid) },
+            data: {
+              category: inputText.toLowerCase(),
+              fid: String(requesterFid),
+            },
           });
 
           return {
@@ -54,7 +57,10 @@ const handler = frames(async (ctx) => {
           //no cat id
           if (catIds.length === 0) {
             const newCategory = await prisma.categories.create({
-              data: { category: inputText, fid: String(requesterFid) },
+              data: {
+                category: inputText.toLowerCase(),
+                fid: String(requesterFid),
+              },
             });
             catId = newCategory.category_id;
           }
@@ -115,7 +121,7 @@ const handler = frames(async (ctx) => {
                   key={index}
                   tw={`bg-${colors[index]}-500 text-white px-4 h-22 min-w-64 rounded-xl m-3 flex items-center justify-center`}
                 >
-                  {e.category}
+                  {formatCategory(e.category)}
                 </div>
               ))}
             </div>
