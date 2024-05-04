@@ -8,18 +8,20 @@ datasource db {
 }
 
 model Bookmarks {
-  bookmark_id String   @id @default(uuid())
+  bookmark_id String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   fid         String
   category_id String
   hash        String
+  text        String?
+  embeds      Json?
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @default(now())
 }
 
 model Categories {
-  category_id String   @id @default(uuid())
+  category_id String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   category    String
   fid         String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @default(now())
 }

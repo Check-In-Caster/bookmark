@@ -12,7 +12,7 @@ const Header = ({ hide }: { hide: boolean }) => {
 
   return (
     <header
-      className={`fixed z-[100] flex w-full max-w-md items-center justify-between bg-white px-5 py-3 shadow ${hide ? "hidden" : ""}`}
+      className={`fixed z-[100] flex w-full max-w-md items-center justify-between border-b bg-white px-5 py-3 ${hide ? "hidden" : ""}`}
     >
       <Link
         href="/profile"

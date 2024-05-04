@@ -42,7 +42,7 @@ async function Home() {
   );
 }
 
-export default function HomePage() {
+export default function CategoryFeed() {
   return (
     <Suspense fallback={HomeLoading}>
       <Home />
