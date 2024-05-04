@@ -68,7 +68,7 @@ export async function Home({
   }
 
   return (
-    <main className="flex flex-1 flex-col">
+    <main className="flex flex-1 flex-col md:w-[690px]">
       {search ? null : <Category list={categories} />}
 
       {categories.length === 0 && (

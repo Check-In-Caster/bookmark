@@ -7,7 +7,7 @@ import {
   RiHome7Line as HomeIcon,
 } from "react-icons/ri";
 
-const MenuItem: React.FC<{
+export const MenuItem: React.FC<{
   link: string;
   icon: React.ReactNode;
   filledIcon: React.ReactNode;
@@ -16,7 +16,7 @@ const MenuItem: React.FC<{
   return (
     <Link href={link} prefetch legacyBehavior>
       <li
-        className={`cursor-pointer ${active ? "text-[#7bb353]" : "text-[#687684]"}`}
+        className={`cursor-pointer rounded-md hover:bg-gray-50 md:p-4 md:px-8  ${active ? "text-[#7bb353]" : "text-[#b8b8b8]"}`}
       >
         {active ? filledIcon : icon}
       </li>
@@ -36,8 +36,8 @@ const Footer = ({ hide }: { hide: boolean }) => {
 
   return (
     <footer
-      className={`fixed bottom-0 z-50 w-full max-w-md  border-black border-opacity-10 bg-white pb-[env(safe-area-inset-bottom)]   ${hide ? "hidden" : ""}
-      ${pathname?.startsWith("/cast/") ? "" : "border-t shadow"}
+      className={`fixed bottom-0 z-50 w-full max-w-5xl border-black  border-opacity-10 bg-white pb-[env(safe-area-inset-bottom)] md:hidden   ${hide ? "hidden" : ""}
+      ${pathname?.startsWith("/cast/") ? "" : "border-t "}
       `}
     >
       <div className="px-5 py-4">

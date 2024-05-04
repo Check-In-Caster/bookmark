@@ -11,7 +11,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     pathname === "/cast/new" || pathname === "/auth/password";
 
   return (
-    <div className="relative mx-auto flex min-h-[100svh] w-full max-w-md flex-col shadow">
+    <div className="relative mx-auto flex min-h-[100svh] w-full max-w-5xl flex-col ">
       <Header hide={hideHeaderFooter} />
       {/* Modify div padding and min-height if height of header or footer changes */}
       <div
@@ -19,7 +19,10 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           !hideHeaderFooter ? "pb-[57px] pt-[66.08px]" : ""
         }`}
       >
-        <div id="app-layout" className="flex flex-1 flex-col">
+        <div
+          id="app-layout"
+          className="min-w-2xl flex flex-1 flex-col md:mx-auto"
+        >
           {children}
         </div>
       </div>

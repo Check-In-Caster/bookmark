@@ -7,6 +7,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaUser as UserIcon } from "react-icons/fa";
+import { GrGlobe, GrHomeRounded } from "react-icons/gr";
+import { MenuItem } from "./footer";
 
 const Header = ({ hide }: { hide: boolean }) => {
   const [search, setSearch] = useState("");
@@ -16,7 +18,7 @@ const Header = ({ hide }: { hide: boolean }) => {
 
   return (
     <header
-      className={`fixed z-[100] flex w-full max-w-md items-center justify-between border-b bg-white px-5 py-3 ${hide ? "hidden" : ""}`}
+      className={`fixed z-[100] flex w-full max-w-5xl items-center justify-between  bg-white px-5 py-3 ${hide ? "hidden" : ""}`}
     >
       {(pathname === "/profile" ||
         pathname?.startsWith("/cast/0x") ||
@@ -34,7 +36,7 @@ const Header = ({ hide }: { hide: boolean }) => {
       !pathname?.startsWith("/channel/") ? (
         <Link href="/" passHref>
           <Image
-            src="/assets/logos/logo.png"
+            src="/assets/logos/logo.svg"
             alt="logo"
             width={30}
             height={30}
@@ -53,16 +55,34 @@ const Header = ({ hide }: { hide: boolean }) => {
         onSubmit={() => {
           router.push(`/search?q=${search}`);
         }}
-        className="relative"
+        className="flex items-center"
       >
-        <SearchIcon className="absolute left-[14px] top-[12px] h-4 w-4 text-gray-500" />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="rounded-full bg-[#E7ECF0] px-4 py-2 pl-10"
-          placeholder="search..."
-        />
+        <div className="hidden  px-5 md:flex">
+          <ul className="mr-10 flex justify-around space-x-10">
+            <MenuItem
+              link="/"
+              icon={<GrHomeRounded className="h-6 w-6" />}
+              filledIcon={<GrHomeRounded className="h-6 w-6" />}
+              active={pathname === "/"}
+            />
+            <MenuItem
+              link="/discover"
+              icon={<GrGlobe className="h-6 w-6" />}
+              filledIcon={<GrGlobe className="h-6 w-6" />}
+              active={pathname?.startsWith("/discover")}
+            />
+          </ul>
+        </div>
+        <div className="relative">
+          <SearchIcon className="absolute left-[14px] top-[12px] h-4 w-4 text-gray-500" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="rounded-full bg-[#E7ECF0] px-4 py-2 pl-10"
+            placeholder="search..."
+          />
+        </div>
       </form>
       <Link
         href="/profile"

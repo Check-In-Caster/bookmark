@@ -117,7 +117,7 @@ const Cast: React.FC<CastProps> = ({
     >
       <div className="col-span-2 pr-3">
         <Link href={`/profile/${author.fid}`} passHref>
-          <Avatar className="h-auto w-full">
+          <Avatar className="h-10 w-10">
             <AvatarImage src={author.pfp_url} alt={`@${author.username}`} />
             <AvatarFallback>
               <UserIcon />

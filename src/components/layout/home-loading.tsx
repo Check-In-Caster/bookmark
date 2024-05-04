@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
 const HomeLoading = (
-  <main>
+  <main className="relative mx-auto  w-full max-w-5xl ">
     <div className="grid grid-flow-row grid-cols-[repeat(14,minmax(0,1fr))] border-b bg-purple-50 bg-opacity-20 px-4 py-5">
       <Skeleton className="h-5 w-56 rounded-full" />
       <Skeleton className="h-5 w-56 rounded-full" />

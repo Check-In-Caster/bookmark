@@ -8,12 +8,12 @@ const Category = ({ list }: { list: Categories[] }) => {
   const path = usePathname();
 
   return (
-    <div className="flex items-center justify-between space-x-14 overflow-scroll border-b px-5 py-4 uppercase">
+    <div className="my-4 flex  items-center space-x-4 overflow-scroll px-5 py-4 capitalize">
       {list.map((category) => (
         <Link
           href={`/category/${category.category_id}`}
           passHref
-          className={`min-w  text-[20px] ${path?.includes(category.category_id) ? " border-b border-gray-900" : "text-gray-500"}`}
+          className={`min-w grid h-[34px] w-[100px] place-items-center rounded-lg border px-5 py-1 text-center text-[14px] font-medium ${path?.includes(category.category_id) ? " border-b border-gray-900 bg-gray-900 text-white" : "text-gray-900"}`}
           key={category.category}
         >
           <div>{category.category}</div>

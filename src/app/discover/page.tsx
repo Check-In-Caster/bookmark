@@ -48,8 +48,10 @@ const DiscoverCard = ({ data, users }: { data: Categories; users?: any }) => {
 const Discover = async () => {
   const { categories, userInfo } = await getDiscoverData();
   return (
-    <div>
-      <h2 className="px-4 py-2 text-xl font-medium">Discover Bookmarks</h2>
+    <div className="w-full md:min-w-[500px]">
+      <h2 className="px-4 py-4 text-xl  font-medium md:py-8">
+        Discover Bookmarks
+      </h2>
       {categories.map((category) => (
         <DiscoverCard
           key={category.category_id}

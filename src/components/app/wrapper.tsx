@@ -12,7 +12,7 @@ const CastWrapper: React.FC<{ href: string; children: React.ReactNode }> = ({
 
   return (
     <div
-      className="grid cursor-pointer grid-flow-row grid-cols-[repeat(14,minmax(0,1fr))] border-b bg-purple-50 bg-opacity-20 px-4 py-5"
+      className="grid cursor-pointer grid-flow-row grid-cols-[repeat(14,minmax(0,1fr))] border-b  bg-opacity-20 px-4 py-5"
       ref={wrapperRef}
       onClick={(e) => {
         if (!wrapperRef.current) return;

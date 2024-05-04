@@ -38,7 +38,7 @@ const PasswordPage: React.FC = () => {
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-6">
       <Image
-        src="/assets/logos/logo.png"
+        src="/assets/logos/logo.svg"
         alt="logo"
         width={80}
         height={80}
