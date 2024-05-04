@@ -11,14 +11,8 @@ import Embed from "./embed";
 import CastWrapper from "./wrapper";
 
 interface CastProps {
-  object: string;
   hash: string;
-  rating?: number | null | undefined;
-  location?: string;
-  checkin_id?: string;
-  city?: string;
-  country?: string;
-  og_image?: string | null;
+
   category?: string;
   author: {
     fid: string | number;
@@ -32,17 +26,9 @@ interface CastProps {
     url: string;
   }[];
   reactions: {
-    likes: {
-      fid: number;
-      fname: string;
-    }[];
-    recasts: {
-      fid: number;
-      fname: string;
-    }[];
-    replies: {
-      count: number;
-    };
+    likes: string | number;
+    recasts: string | number;
+    replies: string | number;
     bookmarked?: boolean;
   };
 }
@@ -73,16 +59,9 @@ const getTimeText = (timestamp: string) => {
 };
 
 const Cast: React.FC<CastProps> = ({
-  object,
-  checkin_id,
-  location,
   hash,
-  rating,
   author,
   text,
-  og_image,
-  city,
-  country,
   category,
   timestamp,
   embeds,
@@ -94,7 +73,7 @@ const Cast: React.FC<CastProps> = ({
 
   const timeText = getTimeText(timestamp);
 
-  const textToHTML = (text: string, locationName: string) => {
+  const textToHTML = (text: string, locationName?: string) => {
     text = text.trim();
 
     const urlMatches = text.match(/((?:https?:\/\/|www\.)[^\s]+)/g);
@@ -133,7 +112,9 @@ const Cast: React.FC<CastProps> = ({
   };
 
   return (
-    <CastWrapper href={`/cast/${hash}`}>
+    <CastWrapper
+      href={`https://warpcast.com/${author.username}/${hash.slice(0, 10)}`}
+    >
       <div className="col-span-2 pr-3">
         <Link href={`/profile/${author.fid}`} passHref>
           <Avatar className="h-auto w-full">
@@ -159,10 +140,7 @@ const Cast: React.FC<CastProps> = ({
 
         <p
           dangerouslySetInnerHTML={{
-            __html: textToHTML(
-              text.replace("@checkin", ""),
-              location || "link",
-            ),
+            __html: textToHTML(text.replace("@checkin", "")),
           }}
           className="mt-2 break-words font-[16px]"
         ></p>
@@ -174,8 +152,8 @@ const Cast: React.FC<CastProps> = ({
                 i?.url?.includes("maps.app.goo.gl") ||
                 i?.url?.includes("app.checkincaster.xyz/m")
               ),
-          ).length === 0 && og_image ? (
-            <Embed url={og_image} />
+          ).length === 0 ? (
+            <></>
           ) : (
             embeds.map((embed, index) => (
               <Embed key={hash + index} url={embed.url} />
@@ -189,32 +167,15 @@ const Cast: React.FC<CastProps> = ({
               hash={hash}
               author_fid={Number(author.fid)}
               type="reply"
-              text={reactions.replies.count.toString()}
+              text={reactions.replies.toString()}
             />
             <CastBtns
               hash={hash}
               author_fid={Number(author.fid)}
               type="recast"
-              text={Array.from(
-                new Map(
-                  reactions.recasts.map((recast) => [recast.fid, recast.fname]),
-                ),
-              ).length.toString()}
-              completed={reactions.recasts.some(
-                (like) => like.fid === Number(loggedInUserFid),
-              )}
+              completed={false}
             />
-            <CastBtns
-              hash={hash}
-              author_fid={Number(author.fid)}
-              type="like"
-              completed={reactions.likes.some(
-                (like) => like.fid === Number(loggedInUserFid),
-              )}
-              text={Array.from(
-                new Map(reactions.likes.map((like) => [like.fid, like.fname])),
-              ).length.toString()}
-            />
+            <CastBtns hash={hash} author_fid={Number(author.fid)} type="like" />
           </ul>
         </div>
       </div>

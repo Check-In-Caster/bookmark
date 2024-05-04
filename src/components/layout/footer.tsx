@@ -1,10 +1,7 @@
+import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import {
-  FaUserCircle as ProfileFilledIcon,
-  FaRegUserCircle as ProfileIcon,
-} from "react-icons/fa";
 import {
   RiHome7Fill as HomeFilledIcon,
   RiHome7Line as HomeIcon,
@@ -19,7 +16,7 @@ const MenuItem: React.FC<{
   return (
     <Link href={link} prefetch legacyBehavior>
       <li
-        className={`cursor-pointer ${active ? "text-[#6D5FB5]" : "text-[#687684]"}`}
+        className={`cursor-pointer ${active ? "text-[#7bb353]" : "text-[#687684]"}`}
       >
         {active ? filledIcon : icon}
       </li>
@@ -52,11 +49,17 @@ const Footer = ({ hide }: { hide: boolean }) => {
             active={pathname === "/"}
           />
           <MenuItem
+            link="/discover"
+            icon={<SearchIcon className="h-6 w-6" />}
+            filledIcon={<SearchIcon className="h-6 w-6" />}
+            active={pathname?.startsWith("/discover")}
+          />
+          {/* <MenuItem
             link="/profile"
             icon={<ProfileIcon className="h-6 w-6" />}
             filledIcon={<ProfileFilledIcon className="h-6 w-6" />}
             active={pathname?.startsWith("/profile")}
-          />
+          /> */}
         </ul>
       </div>
     </footer>

@@ -8,7 +8,7 @@ const Category = ({ list }: { list: Categories[] }) => {
   const path = usePathname();
 
   return (
-    <div className="flex items-center justify-between space-x-14 overflow-scroll px-5 py-4 uppercase">
+    <div className="flex items-center justify-between space-x-14 overflow-scroll border-b px-5 py-4 uppercase">
       {list.map((category) => (
         <Link
           href={`/category/${category.category_id}`}

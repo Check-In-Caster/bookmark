@@ -53,9 +53,9 @@ const PasswordPage: React.FC = () => {
           onChange={(e) => {
             setPassword(e.target.value);
           }}
-          className="min-w-64 border-[#6D5FB5] focus-visible:ring-[#6D5FB5]"
+          className="min-w-64 border-[#7bb353] focus-visible:ring-[#7bb353]"
         />
-        <Button className="bg-[#6D5FB5]" type="submit" disabled={loading}>
+        <Button className="bg-[#7bb353]" type="submit" disabled={loading}>
           Submit
         </Button>
       </form>
