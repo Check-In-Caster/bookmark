@@ -46,24 +46,17 @@ const handler = frames(async (ctx) => {
           };
         } else if (type === "bookmark" && castId) {
           //resolve categoryId
-          const catId = categories.filter(
+          let catId = "";
+          const catIds = categories.filter(
             (c) => c.category.toLowerCase() === inputText.toLowerCase(),
           );
 
           //no cat id
-          if (catId.length === 0) {
-            return {
-              image: (
-                <div tw="flex flex-col items-center justify-center p-10 text-[42px]">
-                  <div tw="text-[52px] mb-4">Invalid Category ⁉️</div>
-                </div>
-              ),
-              buttons: [
-                <Button action="post" target={`${APP_URL}/frames/bookmark`}>
-                  ← Back
-                </Button>,
-              ],
-            };
+          if (catIds.length === 0) {
+            const newCategory = await prisma.categories.create({
+              data: { category: inputText, fid: String(requesterFid) },
+            });
+            catId = newCategory.category_id;
           }
 
           //get cast info
@@ -73,7 +66,7 @@ const handler = frames(async (ctx) => {
           //save cast to a bookmark category
           await prisma.bookmarks.create({
             data: {
-              category_id: catId[0].category_id,
+              category_id: catId,
               fid: String(requesterFid),
               hash: castId.hash,
               text,
@@ -131,9 +124,6 @@ const handler = frames(async (ctx) => {
         buttons: [
           <Button action="post" target={postUrl({ param: "bookmark" })}>
             🔖 Bookmark
-          </Button>,
-          <Button action="post" target={postUrl({ param: "save" })}>
-            ➕ Create Category
           </Button>,
         ],
       };
