@@ -14,7 +14,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         appearance: {
           theme: "light",
           accentColor: "#676FFF",
-          logo: "/assets/logos/logofull.png",
+          logo: "/assets/logos/logo.svg",
           showWalletLoginFirst: false,
         },
         // Create embedded wallets for users who don't have a wallet
