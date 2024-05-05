@@ -89,7 +89,7 @@ export async function POST(
           hash: parent_hash,
           text,
           embeds,
-          post_by: cast.conversation.cast.author.fid,
+          post_by: String(cast.conversation.cast.author.fid),
         },
       });
 
