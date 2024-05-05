@@ -64,21 +64,6 @@ const DiscoverCard = ({
               src={users[fid.fid]?.pfp_url}
               className="h-10 w-10"
             />
-            <img
-              key={fid.fid}
-              src={users[fid.fid]?.pfp_url}
-              className="h-10 w-10"
-            />
-            <img
-              key={fid.fid}
-              src={users[fid.fid]?.pfp_url}
-              className="h-10 w-10"
-            />
-            <img
-              key={fid.fid}
-              src={users[fid.fid]?.pfp_url}
-              className="h-10 w-10"
-            />
           </>
         ))}
       </div>

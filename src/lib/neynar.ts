@@ -88,7 +88,7 @@ export const getCasts = async (casts: string[], viewerFid = 3) => {
     return data.result.casts;
   } catch (error) {
     console.error("Error fetching data:", error);
-    throw error;
+    return null;
   }
 };
 

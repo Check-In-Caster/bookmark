@@ -3,7 +3,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { usePrivy } from "@privy-io/react-auth";
-import Link from "next/link";
 import { useFormStatus } from "react-dom";
 import { FaUser as UserIcon } from "react-icons/fa";
 import CastBtns from "./cast-btns";
@@ -116,22 +115,18 @@ const Cast: React.FC<CastProps> = ({
       href={`https://warpcast.com/${author.username}/${hash.slice(0, 10)}`}
     >
       <div className="col-span-2 pr-3">
-        <Link href={`/profile/${author.fid}`} passHref>
-          <Avatar className="h-10 w-10">
-            <AvatarImage src={author.pfp_url} alt={`@${author.username}`} />
-            <AvatarFallback>
-              <UserIcon />
-            </AvatarFallback>
-          </Avatar>
-        </Link>
+        <Avatar className="h-10 w-10">
+          <AvatarImage src={author.pfp_url} alt={`@${author.username}`} />
+          <AvatarFallback>
+            <UserIcon />
+          </AvatarFallback>
+        </Avatar>
       </div>
 
       <div className="col-span-12">
         <div>
-          <Link href={`/profile/${author.fid}`} passHref>
-            <span className="font-semibold">{author.display_name}</span>{" "}
-            <span className="text-gray-500">@{author.username}</span>
-          </Link>
+          <span className="font-semibold">{author.display_name}</span>{" "}
+          <span className="text-gray-500">@{author.username}</span>
           <span className="text-gray-500">
             &nbsp;&nbsp;·&nbsp;
             {timeText}
