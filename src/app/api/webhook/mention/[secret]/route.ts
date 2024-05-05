@@ -52,13 +52,22 @@ export async function POST(
     },
   });
 
+  let categoryId = null;
+
   if (!_c?.category_id) {
-    return NextResponse.json(
-      {
-        message: "Not a valid bookmark category",
+    const categoryRecord = await prisma.categories.create({
+      data: {
+        category,
+        fid: String(author.fid),
       },
-      { status: 400 },
-    );
+      select: {
+        category_id: true,
+      },
+    });
+
+    categoryId = categoryRecord.category_id;
+  } else {
+    categoryId = _c?.category_id;
   }
 
   //check if the cast is a reply to a cast by checking if it has a parent
@@ -75,7 +84,7 @@ export async function POST(
       //create bookmark
       await prisma.bookmarks.create({
         data: {
-          category_id: _c.category_id,
+          category_id: categoryId,
           fid: String(author.fid),
           hash: parent_hash,
           text,
