@@ -63,6 +63,8 @@ const handler = frames(async (ctx) => {
               },
             });
             catId = newCategory.category_id;
+          } else {
+            catId = catIds[0].category_id;
           }
 
           //get cast info
