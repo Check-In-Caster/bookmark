@@ -1,37 +1,39 @@
 const axios = require("axios");
 
 export const replyCast = async ({
+  parentId,
   textContents = `Bookmarked!`,
   embedUrl,
-  parentId,
 }: {
-  textContents?: string;
-  embedUrl: string;
   parentId: string;
+  textContents?: string;
+  embedUrl?: string;
 }) => {
-  try {
-    const options = {
-      method: "POST",
-      url: "https://api.neynar.com/v2/farcaster/cast",
-      headers: {
-        accept: "application/json",
-        api_key: process.env.NEYNAR_API_KEY,
-        "content-type": "application/json",
-      },
-      data: {
-        signer_uuid: process.env.NEYNAR_SIGNED_UUID,
-        text: textContents,
-        embeds: [{ url: embedUrl }],
-        parent: parentId,
-      },
-    };
+  if (process.env.NEYNAR_SIGNED_UUID) {
+    try {
+      const options = {
+        method: "POST",
+        url: "https://api.neynar.com/v2/farcaster/cast",
+        headers: {
+          accept: "application/json",
+          api_key: process.env.NEYNAR_API,
+          "content-type": "application/json",
+        },
+        data: {
+          signer_uuid: process.env.NEYNAR_SIGNED_UUID,
+          text: textContents,
+          embeds: embedUrl ? [{ url: embedUrl }] : [],
+          parent: parentId,
+        },
+      };
 
-    const response = await axios.request(options);
+      const response = await axios.request(options);
 
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    console.error(error);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 
@@ -50,7 +52,7 @@ export const getCastInfo = async ({
         method: "GET",
         headers: {
           accept: "application/json",
-          api_key: process.env.NEYNAR_API_KEY!,
+          api_key: process.env.NEYNAR_API!,
         },
       },
     );

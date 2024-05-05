@@ -19,7 +19,7 @@ export const extractUrls = (text: string) => {
 
 export const extractCategory = (text: string) => {
   const regex = /(?<=@bookmark\s*).*/;
-  const match = text.match(regex);
+  const match = text.toLocaleLowerCase().match(regex);
 
   return match ? match[0].toLowerCase().trim() : null;
 };

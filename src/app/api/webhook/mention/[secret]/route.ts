@@ -1,4 +1,4 @@
-import { getCastInfo } from "@/lib/neynar";
+import { getCastInfo, replyCast } from "@/lib/neynar";
 import { prisma } from "@/lib/prisma";
 import { extractCategory } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
@@ -20,7 +20,7 @@ export async function POST(
     );
   }
 
-  const { parent_hash, text, author } = data.data;
+  const { parent_hash, text, author, hash } = data.data;
 
   if (!parent_hash) {
     return NextResponse.json(
@@ -31,9 +31,9 @@ export async function POST(
     );
   }
 
-  const category = extractCategory(text);
+  const category = extractCategory(text.replace("@undefined", "@bookmark"));
 
-  if (!category) {
+  if (!category || category === "") {
     return NextResponse.json(
       {
         message: "Couldn't extract category",
@@ -90,6 +90,10 @@ export async function POST(
           text,
           embeds,
         },
+      });
+
+      await replyCast({
+        parentId: hash,
       });
     } else {
       return NextResponse.json(
