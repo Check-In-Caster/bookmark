@@ -16,7 +16,7 @@ export const MenuItem: React.FC<{
   return (
     <Link href={link} prefetch legacyBehavior>
       <li
-        className={`cursor-pointer rounded-md hover:bg-gray-50 md:p-4 md:px-8  ${active ? "text-[#7bb353]" : "text-[#b8b8b8]"}`}
+        className={`cursor-pointer rounded-lg hover:bg-gray-50 md:p-4 md:px-8  ${active ? "text-[#7bb353]" : "text-[#b8b8b8]"}`}
       >
         {active ? filledIcon : icon}
       </li>

@@ -1,13 +1,14 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
 const HomeLoading = (
-  <main className="relative mx-auto  w-full max-w-5xl ">
-    <div className="grid grid-flow-row grid-cols-[repeat(14,minmax(0,1fr))] border-b bg-purple-50 bg-opacity-20 px-4 py-5">
-      <Skeleton className="h-5 w-56 rounded-full" />
-      <Skeleton className="h-5 w-56 rounded-full" />
-      <Skeleton className="h-5 w-56 rounded-full" />
+  <main className="relative mx-auto w-full max-w-5xl md:w-[690px] ">
+    <div className="grid grid-flow-row grid-cols-4 space-x-5 border-b  bg-opacity-20 px-4 py-5">
+      <Skeleton className="mr-5 h-5 w-56 rounded-md" />
+      <Skeleton className="mr-5 h-5 w-56 rounded-md" />
+      <Skeleton className="mr-5 h-5 w-56 rounded-md" />
+      <Skeleton className="mr-5 h-5 w-56 rounded-md" />
     </div>
-    <div className="grid grid-flow-row grid-cols-12 border-b bg-purple-50 bg-opacity-20 px-5 py-5">
+    <div className="grid grid-flow-row grid-cols-12 border-b  bg-opacity-20 px-5 py-5">
       <div className="col-span-2 pr-3">
         <Skeleton className="aspect-square w-full rounded-full" />
       </div>

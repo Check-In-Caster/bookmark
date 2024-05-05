@@ -19,6 +19,12 @@ function SignInPage() {
   }, [user]);
 
   useEffect(() => {
+    if (user?.farcaster) {
+      router.push("/");
+    }
+  }, [user]);
+
+  useEffect(() => {
     if (!user) return;
 
     const redirectTo = searchParams?.get("redirect_to");
@@ -40,7 +46,7 @@ function SignInPage() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-y-24">
       <Image
-        src="/assets/logos/logofull.png"
+        src="/assets/logos/logo.svg"
         alt="logo"
         width={250}
         height={130}

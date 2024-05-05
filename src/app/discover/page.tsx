@@ -11,25 +11,78 @@ const getDiscoverData = async () => {
     take: 10,
   });
 
-  const userInfo = await fetchUserData(
-    categories.map((category) => category.fid),
-  );
+  const categoryFidMapping: any = {};
+  const fidToFetch = [];
 
-  return { categories, userInfo };
+  for (const category of categories) {
+    const casts = await prisma.bookmarks.findMany({
+      select: {
+        fid: true,
+      },
+      where: {
+        category_id: category.category_id,
+      },
+      distinct: ["fid"],
+      take: 4,
+    });
+    fidToFetch.push(...casts.map((cast) => cast.fid));
+    categoryFidMapping[category.category_id] = casts;
+  }
+
+  const userInfo = await fetchUserData([
+    ...categories.map((category) => category.fid),
+    ...fidToFetch,
+  ]);
+
+  return { categories, userInfo, categoryFidMapping };
 };
 
-const DiscoverCard = ({ data, users }: { data: Categories; users?: any }) => {
+const DiscoverCard = ({
+  data,
+  users,
+  categoryFidMapping,
+}: {
+  data: Categories;
+  users?: any;
+  categoryFidMapping?: string[];
+}) => {
+  // @ts-ignore
+  if (categoryFidMapping?.[data?.category_id].length === 0) return null;
+
   return (
     <Link
-      href={`/category/${data.category_id}`}
+      href={`/category/${data.category_id}?discover=view`}
       passHref
       className="flex items-center border-b px-4 py-2"
     >
-      <img
-        src="/assets/icons/discover_avatar.png"
-        className="h-14 w-14"
-        alt="Discover Avatar"
-      />
+      <div className="grid grid-cols-2 gap-0 object-cover">
+        {/* @ts-ignore */}
+        {categoryFidMapping?.[data?.category_id]?.map((fid) => (
+          <>
+            <img
+              key={fid.fid}
+              src={users[fid.fid]?.pfp_url}
+              className="h-10 w-10"
+            />
+            <img
+              key={fid.fid}
+              src={users[fid.fid]?.pfp_url}
+              className="h-10 w-10"
+            />
+            <img
+              key={fid.fid}
+              src={users[fid.fid]?.pfp_url}
+              className="h-10 w-10"
+            />
+            <img
+              key={fid.fid}
+              src={users[fid.fid]?.pfp_url}
+              className="h-10 w-10"
+            />
+          </>
+        ))}
+      </div>
+
       <div className="ml-4">
         <p className="text-xl capitalize">{data.category}</p>
         <p className="mt-4 flex items-center space-x-4 text-gray-500">
@@ -46,17 +99,19 @@ const DiscoverCard = ({ data, users }: { data: Categories; users?: any }) => {
 };
 
 const Discover = async () => {
-  const { categories, userInfo } = await getDiscoverData();
+  const { categories, userInfo, categoryFidMapping } = await getDiscoverData();
   return (
     <div className="w-full md:min-w-[500px]">
       <h2 className="px-4 py-4 text-xl  font-medium md:py-8">
         Discover Bookmarks
       </h2>
+
       {categories.map((category) => (
         <DiscoverCard
           key={category.category_id}
           data={category}
           users={userInfo}
+          categoryFidMapping={categoryFidMapping}
         />
       ))}
     </div>

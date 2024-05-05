@@ -1,7 +1,6 @@
 import Cast from "@/components/app/Cast";
 import Category from "@/components/app/Category";
 import HomeLoading from "@/components/layout/home-loading";
-import { AllowedFids } from "@/config";
 import { getCasts } from "@/lib/neynar";
 import { prisma } from "@/lib/prisma";
 import { getVerifiedClaims, privy } from "@/lib/privy";
@@ -12,10 +11,12 @@ const getCategories = async ({
   fid,
   categoryId,
   search,
+  discover = false,
 }: {
   fid: string;
   categoryId?: string;
   search?: string;
+  discover?: boolean;
 }) => {
   const categories = await prisma.categories.findMany({
     where: {
@@ -25,7 +26,7 @@ const getCategories = async ({
 
   const casts = await prisma.bookmarks.findMany({
     where: {
-      fid: fid,
+      ...(discover ? {} : { fid: fid }),
       ...(search
         ? {
             text: {
@@ -47,9 +48,11 @@ const getCategories = async ({
 export async function Home({
   categoryId,
   search,
+  discover = false,
 }: {
   categoryId?: string;
   search?: string;
+  discover?: boolean;
 }) {
   const verifiedClaims = await getVerifiedClaims();
 
@@ -59,17 +62,18 @@ export async function Home({
     fid: String(user.farcaster?.fid),
     categoryId,
     search,
+    discover,
   });
 
   if (!user.farcaster) redirect("/signin?redirect_to=/");
 
-  if (!AllowedFids.includes(user.farcaster.fid)) {
-    return "Permission Denied!";
-  }
-
   return (
     <main className="flex flex-1 flex-col md:w-[690px]">
-      {search ? null : <Category list={categories} />}
+      {search ? null : (
+        <>
+          <Category list={categories} />
+        </>
+      )}
 
       {categories.length === 0 && (
         <div className="flex flex-1 items-center justify-center">
@@ -104,10 +108,14 @@ export async function Home({
 
 export default function CategoryFeed(props: {
   params: { categoryId: string };
+  searchParams: { discover: string };
 }) {
   return (
     <Suspense fallback={HomeLoading}>
-      <Home categoryId={props.params.categoryId} />
+      <Home
+        categoryId={props.params.categoryId}
+        discover={props?.searchParams?.discover === "view" ? true : false}
+      />
     </Suspense>
   );
 }
