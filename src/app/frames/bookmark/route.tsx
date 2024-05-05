@@ -79,6 +79,7 @@ const handler = frames(async (ctx) => {
               hash: castId.hash,
               text,
               embeds,
+              post_by: cast.conversation.cast.author.fid,
             },
           });
 

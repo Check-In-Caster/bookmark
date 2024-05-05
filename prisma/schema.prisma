@@ -16,6 +16,7 @@ model Bookmarks {
   embeds      Json?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+  post_by     String?
 }
 
 model Categories {

@@ -18,6 +18,7 @@ const getDiscoverData = async () => {
     const casts = await prisma.bookmarks.findMany({
       select: {
         fid: true,
+        post_by: true,
       },
       where: {
         category_id: category.category_id,
@@ -25,8 +26,13 @@ const getDiscoverData = async () => {
       distinct: ["fid"],
       take: 4,
     });
-    fidToFetch.push(...casts.map((cast) => cast.fid));
-    categoryFidMapping[category.category_id] = casts;
+
+    const fids = casts
+      .map((cast) => cast.post_by ?? "")
+      .filter((i) => i != null);
+
+    fidToFetch.push(...fids);
+    categoryFidMapping[category.category_id] = fids;
   }
 
   const userInfo = await fetchUserData([
@@ -59,11 +65,7 @@ const DiscoverCard = ({
         {/* @ts-ignore */}
         {categoryFidMapping?.[data?.category_id]?.map((fid) => (
           <>
-            <img
-              key={fid.fid}
-              src={users[fid.fid]?.pfp_url}
-              className="h-10 w-10"
-            />
+            <img key={fid} src={users[fid]?.pfp_url} className="h-10 w-10" />
           </>
         ))}
       </div>
