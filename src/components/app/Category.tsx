@@ -21,7 +21,7 @@ const Category = ({ list }: { list: Categories[] }) => {
         <Link
           href={`/category/${category.category_id}`}
           passHref
-          className={`min-w grid h-[34px] w-[100px] place-items-center rounded-lg border px-5 py-1 text-center text-[14px] font-medium ${path?.includes(category.category_id) ? " border-b border-gray-900 bg-gray-900 text-white" : "text-gray-900"}`}
+          className={`min-w  grid  h-[34px] min-w-[100px] place-items-center overflow-hidden truncate text-ellipsis rounded-lg border px-5 py-1 text-center text-[14px] font-medium ${path?.includes(category.category_id) ? " border-b border-gray-900 bg-gray-900 text-white" : "text-gray-900"}`}
           key={category.category}
         >
           <div>{category.category}</div>

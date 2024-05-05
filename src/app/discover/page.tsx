@@ -23,7 +23,7 @@ const getDiscoverData = async () => {
       where: {
         category_id: category.category_id,
       },
-      distinct: ["fid"],
+      // distinct: ["fid"],
       take: 4,
     });
 
@@ -68,6 +68,21 @@ const DiscoverCard = ({
             <img key={fid} src={users[fid]?.pfp_url} className="h-10 w-10" />
           </>
         ))}
+        {/* @ts-ignore */}
+        {categoryFidMapping?.[data?.category_id].length < 4 && (
+          <>
+            {Array(
+              4 -
+                Number(
+                  categoryFidMapping?.[data?.category_id as any].length ?? 0,
+                ),
+            )
+              .fill(1)
+              .map((i) => (
+                <div key={i} className="h-10 w-10 bg-gray-50"></div>
+              ))}
+          </>
+        )}
       </div>
 
       <div className="ml-4">
