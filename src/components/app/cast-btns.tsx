@@ -110,7 +110,7 @@ const CastBtns: React.FC<{
       {type === "bookmark" && (
         <>
           {actionCompleted ? (
-            <BookmarkIconFilled className="text-[#7bb353]" />
+            <BookmarkIconFilled className="text-[#8680ff]" />
           ) : (
             <BookmarkIcon />
           )}
