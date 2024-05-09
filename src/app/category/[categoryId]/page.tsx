@@ -37,12 +37,30 @@ const getCategories = async ({
             category_id: categoryId ? categoryId : undefined,
           }),
     },
+    select: {
+      bookmark_id: true,
+      hash: true,
+    },
     take: 10,
   });
 
   const castsHashes = await getCasts(casts.map((cast) => cast.hash));
+  const castDetails: any = [];
 
-  return { categories, casts: castsHashes };
+  for (let i = 0; i < castsHashes.length; i++) {
+    castDetails.push({ ...castsHashes[i], ...casts[i] });
+  }
+
+  return { categories, casts: castDetails };
+};
+
+const deleteBookmark = async ({ bookmark_id }: { bookmark_id: string }) => {
+  "use server";
+  await prisma.bookmarks.delete({
+    where: {
+      bookmark_id,
+    },
+  });
 };
 
 export async function Home({
@@ -85,6 +103,7 @@ export async function Home({
         <Cast
           key={cast.bookmark_id}
           hash={cast.hash}
+          bookmark_id={cast.bookmark_id}
           reactions={{
             likes: cast.reactions.likes_count,
             replies: cast.reactions.recasts_count,
@@ -94,6 +113,7 @@ export async function Home({
           timestamp={String(cast.timestamp)}
           author={cast.author}
           embeds={cast.embeds}
+          deleteBookmark={deleteBookmark}
         />
       ))}
 

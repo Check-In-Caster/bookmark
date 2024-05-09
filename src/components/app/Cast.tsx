@@ -1,17 +1,20 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import { usePrivy } from "@privy-io/react-auth";
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { useFormStatus } from "react-dom";
+import { BsThreeDots as OptionIcon } from "react-icons/bs";
 import { FaUser as UserIcon } from "react-icons/fa";
+import { FiTrash as DeleteIcon } from "react-icons/fi";
+import { toast } from "sonner";
 import CastBtns from "./cast-btns";
 import Embed from "./embed";
 import CastWrapper from "./wrapper";
 
 interface CastProps {
   hash: string;
-
+  bookmark_id: string;
   category?: string;
   author: {
     fid: string | number;
@@ -30,6 +33,7 @@ interface CastProps {
     replies: string | number;
     bookmarked?: boolean;
   };
+  deleteBookmark: Function;
 }
 
 const getTimeText = (timestamp: string) => {
@@ -59,12 +63,14 @@ const getTimeText = (timestamp: string) => {
 
 const Cast: React.FC<CastProps> = ({
   hash,
+  bookmark_id,
   author,
   text,
   category,
   timestamp,
   embeds,
   reactions,
+  deleteBookmark,
 }) => {
   const { user } = usePrivy();
   const loggedInUserFid = user?.farcaster?.fid;
@@ -110,6 +116,15 @@ const Cast: React.FC<CastProps> = ({
     return text;
   };
 
+  const deleteBookmarkCast = async (e: any) => {
+    e.preventDefault();
+    await deleteBookmark({ bookmark_id });
+    toast.success("Cast Deleted");
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  };
+
   return (
     <CastWrapper
       href={`https://warpcast.com/${author.username}/${hash.slice(0, 10)}`}
@@ -123,14 +138,32 @@ const Cast: React.FC<CastProps> = ({
         </Avatar>
       </div>
 
-      <div className="col-span-12">
-        <div>
-          <span className="font-semibold">{author.display_name}</span>{" "}
-          <span className="text-gray-500">@{author.username}</span>
-          <span className="text-gray-500">
-            &nbsp;&nbsp;·&nbsp;
-            {timeText}
-          </span>
+      <div className="relative z-0 col-span-12">
+        <div className="flex justify-between">
+          <div>
+            <span className="font-semibold">{author.display_name}</span>{" "}
+            <span className="text-gray-500">@{author.username}</span>
+            <span className="text-gray-500">
+              &nbsp;&nbsp;·&nbsp;
+              {timeText}
+            </span>
+          </div>
+          <div className="z-100 absolute right-0 focus:outline-none">
+            <DropdownMenuPrimitive.Root>
+              <DropdownMenuPrimitive.Trigger className="flex h-5 w-10 items-start justify-center focus:outline-none">
+                <OptionIcon className="text-gray-500 hover:text-gray-700 focus:outline-none" />
+              </DropdownMenuPrimitive.Trigger>
+              <DropdownMenuPrimitive.Content className="z-100 relative rounded-md border bg-white p-[1px] px-[4px] shadow-2xl">
+                <DropdownMenuPrimitive.Item
+                  className="flex w-full items-center justify-between rounded-md p-2 text-sm text-red-500 hover:bg-gray-50 focus:outline-none"
+                  onClick={deleteBookmarkCast}
+                >
+                  <DeleteIcon className="mr-1" />
+                  Delete
+                </DropdownMenuPrimitive.Item>
+              </DropdownMenuPrimitive.Content>
+            </DropdownMenuPrimitive.Root>
+          </div>
         </div>
 
         <p
